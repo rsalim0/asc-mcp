@@ -4,7 +4,7 @@ An MCP server that exposes **191 tools** spanning the entire App Store Connect A
 
 Built so you can do *"translate my what's-new to all locales and push"* or *"submit the latest build to External Testers"* from a Claude conversation instead of clicking through ASC for 40 minutes.
 
-[![Add asc-mcp to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=asc-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImdpdGh1Yjpyc2FsaW0wL2FzYy1tY3AiXSwiZW52Ijp7IkFQUF9TVE9SRV9DT05ORUNUX0tFWV9JRCI6IllPVVJfS0VZX0lEIiwiQVBQX1NUT1JFX0NPTk5FQ1RfSVNTVUVSX0lEIjoiWU9VUl9JU1NVRVJfSUQiLCJBUFBfU1RPUkVfQ09OTkVDVF9QOF9QQVRIIjoiL2Fic29sdXRlL3BhdGgvdG8vQXV0aEtleS5wOCJ9fQ%3D%3D)
+[![Add asc-mcp-pro to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=asc-mcp-pro&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImFzYy1tY3AtcHJvIl0sImVudiI6eyJBUFBfU1RPUkVfQ09OTkVDVF9LRVlfSUQiOiJZT1VSX0tFWV9JRCIsIkFQUF9TVE9SRV9DT05ORUNUX0lTU1VFUl9JRCI6IllPVVJfSVNTVUVSX0lEIiwiQVBQX1NUT1JFX0NPTk5FQ1RfUDhfUEFUSCI6Ii9hYnNvbHV0ZS9wYXRoL3RvL0F1dGhLZXkucDgifX0%3D)
 
 > The button opens Cursor with a pre-filled install dialog. After install, edit `~/.cursor/mcp.json` and replace `YOUR_KEY_ID`, `YOUR_ISSUER_ID`, and the `.p8` path with your real values — see [Getting an App Store Connect API key](#getting-an-app-store-connect-api-key) below.
 
@@ -19,7 +19,7 @@ claude mcp add appstore-connect \
   -e APP_STORE_CONNECT_KEY_ID=YOUR_KEY_ID \
   -e APP_STORE_CONNECT_ISSUER_ID=YOUR_ISSUER_ID \
   -e APP_STORE_CONNECT_P8_PATH=/absolute/path/to/AuthKey_XXXXXX.p8 \
-  -- npx -y asc-mcp
+  -- npx -y asc-mcp-pro
 ```
 
 ### Option B — install directly from GitHub
@@ -36,7 +36,7 @@ claude mcp add appstore-connect \
 
 ```bash
 git clone https://github.com/rsalim0/asc-mcp.git
-cd appstore-connect-mcp
+cd asc-mcp
 npm install
 npm run build
 
@@ -48,6 +48,50 @@ claude mcp add appstore-connect \
 ```
 
 Add `APP_STORE_CONNECT_VENDOR_NUMBER=XXXXXXXXXX` to enable sales / finance report tools (find your vendor number under *Payments and Financial Reports* in App Store Connect).
+
+---
+
+## Other MCP clients
+
+MCP is a standard protocol — this server works with **any** MCP client, not just Claude Code. The config snippet is the same shape everywhere:
+
+```json
+{
+  "command": "npx",
+  "args": ["-y", "asc-mcp-pro"],
+  "env": {
+    "APP_STORE_CONNECT_KEY_ID": "YOUR_KEY_ID",
+    "APP_STORE_CONNECT_ISSUER_ID": "YOUR_ISSUER_ID",
+    "APP_STORE_CONNECT_P8_PATH": "/absolute/path/to/AuthKey.p8"
+  }
+}
+```
+
+Drop it into your client's MCP config file:
+
+| Client | Config file | How to slot it in |
+|---|---|---|
+| **Claude Desktop** | `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)<br>`%APPDATA%\Claude\claude_desktop_config.json` (Windows) | Under `"mcpServers": { "asc-mcp-pro": { …snippet… } }` |
+| **Cursor** | `~/.cursor/mcp.json` | Under `"mcpServers": { "asc-mcp-pro": { …snippet… } }` (or use the button above) |
+| **Windsurf** | `~/.codeium/windsurf/mcp_config.json` | Under `"mcpServers": { "asc-mcp-pro": { …snippet… } }` |
+| **Zed** | Zed settings (`~/.config/zed/settings.json`) | Under `"context_servers": { "asc-mcp-pro": { …snippet… } }` |
+| **Continue** (VS Code / JetBrains) | `.continue/config.json` | See [Continue MCP docs](https://docs.continue.dev/customization/mcp-tools) — same `command/args/env` shape |
+| **OpenAI Codex CLI** | `~/.codex/config.toml` | TOML form (see below) |
+
+### Codex CLI (TOML form)
+
+Codex uses TOML, not JSON. Add this to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.asc_mcp_pro]
+command = "npx"
+args = ["-y", "asc-mcp-pro"]
+env = { APP_STORE_CONNECT_KEY_ID = "YOUR_KEY_ID", APP_STORE_CONNECT_ISSUER_ID = "YOUR_ISSUER_ID", APP_STORE_CONNECT_P8_PATH = "/absolute/path/to/AuthKey.p8" }
+```
+
+(Note: Codex config keys must be valid TOML identifiers, so the table name uses `asc_mcp_pro` with underscores rather than hyphens.)
+
+After editing the config file, restart your client.
 
 ---
 
