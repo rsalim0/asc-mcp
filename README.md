@@ -17,7 +17,9 @@ Built so you can do *"translate my what's-new to all locales and push"* or *"sub
 
 ## Install
 
-### Option A — npm (recommended for end users)
+Same env vars everywhere — `APP_STORE_CONNECT_KEY_ID`, `APP_STORE_CONNECT_ISSUER_ID`, `APP_STORE_CONNECT_P8_PATH`. Pick your client:
+
+### Claude Code
 
 ```bash
 claude mcp add appstore-connect \
@@ -27,76 +29,83 @@ claude mcp add appstore-connect \
   -- npx -y asc-mcp-pro
 ```
 
-### Option B — install directly from GitHub
+### OpenAI Codex CLI
 
 ```bash
-claude mcp add appstore-connect \
-  -e APP_STORE_CONNECT_KEY_ID=YOUR_KEY_ID \
-  -e APP_STORE_CONNECT_ISSUER_ID=YOUR_ISSUER_ID \
-  -e APP_STORE_CONNECT_P8_PATH=/absolute/path/to/AuthKey_XXXXXX.p8 \
-  -- npx -y github:rsalim0/asc-mcp
+codex mcp add appstore-connect \
+  --env APP_STORE_CONNECT_KEY_ID=YOUR_KEY_ID \
+  --env APP_STORE_CONNECT_ISSUER_ID=YOUR_ISSUER_ID \
+  --env APP_STORE_CONNECT_P8_PATH=/absolute/path/to/AuthKey_XXXXXX.p8 \
+  -- npx -y asc-mcp-pro
 ```
 
-### Option C — local clone (for hacking on the code)
+### Cursor
+
+Click the **Add to Cursor** button at the top — fills the install dialog automatically. Then open `~/.cursor/mcp.json` and replace the `YOUR_*` placeholders with your real values.
+
+### Claude Desktop / Windsurf / Zed / Continue
+
+Paste this JSON into your client's MCP config file:
+
+```json
+{
+  "mcpServers": {
+    "appstore-connect": {
+      "command": "npx",
+      "args": ["-y", "asc-mcp-pro"],
+      "env": {
+        "APP_STORE_CONNECT_KEY_ID": "YOUR_KEY_ID",
+        "APP_STORE_CONNECT_ISSUER_ID": "YOUR_ISSUER_ID",
+        "APP_STORE_CONNECT_P8_PATH": "/absolute/path/to/AuthKey.p8"
+      }
+    }
+  }
+}
+```
+
+| Client | Config file location | Notes |
+|---|---|---|
+| **Claude Desktop** | `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)<br>`%APPDATA%\Claude\claude_desktop_config.json` (Windows) | — |
+| **Cursor** | `~/.cursor/mcp.json` | (Or use the button above) |
+| **Windsurf** | `~/.codeium/windsurf/mcp_config.json` | — |
+| **Zed** | `~/.config/zed/settings.json` | Use key `"context_servers"` instead of `"mcpServers"` |
+| **Continue** (VS Code / JetBrains) | `.continue/config.json` | See [Continue MCP docs](https://docs.continue.dev/customization/mcp-tools) |
+
+Restart the client after editing.
+
+### Verify it works
+
+```bash
+APP_STORE_CONNECT_KEY_ID=YOUR_KEY_ID \
+APP_STORE_CONNECT_ISSUER_ID=YOUR_ISSUER_ID \
+APP_STORE_CONNECT_P8_PATH=/absolute/path/to/AuthKey.p8 \
+npx -y asc-mcp-pro
+```
+
+Should print `appstore-connect-mcp ready (191 tools)` to stderr and wait. Ctrl+C to exit. (This is what your MCP client runs under the hood.)
+
+### Optional: sales / finance reports
+
+Set `APP_STORE_CONNECT_VENDOR_NUMBER=XXXXXXXXXX` (find it in App Store Connect → *Payments and Financial Reports*) to unlock the sales/finance report tools.
+
+### Bleeding edge / local hacking
+
+To install the latest unreleased `main` from GitHub:
+
+```bash
+# replace `asc-mcp-pro` with `github:rsalim0/asc-mcp` in any install command above
+claude mcp add appstore-connect -e ... -- npx -y github:rsalim0/asc-mcp
+```
+
+To hack on the source:
 
 ```bash
 git clone https://github.com/rsalim0/asc-mcp.git
 cd asc-mcp
 npm install
 npm run build
-
-claude mcp add appstore-connect \
-  -e APP_STORE_CONNECT_KEY_ID=YOUR_KEY_ID \
-  -e APP_STORE_CONNECT_ISSUER_ID=YOUR_ISSUER_ID \
-  -e APP_STORE_CONNECT_P8_PATH=/absolute/path/to/AuthKey_XXXXXX.p8 \
-  -- node $(pwd)/build/index.js
+# point your client at node $(pwd)/build/index.js
 ```
-
-Add `APP_STORE_CONNECT_VENDOR_NUMBER=XXXXXXXXXX` to enable sales / finance report tools (find your vendor number under *Payments and Financial Reports* in App Store Connect).
-
----
-
-## Other MCP clients
-
-MCP is a standard protocol — this server works with **any** MCP client, not just Claude Code. The config snippet is the same shape everywhere:
-
-```json
-{
-  "command": "npx",
-  "args": ["-y", "asc-mcp-pro"],
-  "env": {
-    "APP_STORE_CONNECT_KEY_ID": "YOUR_KEY_ID",
-    "APP_STORE_CONNECT_ISSUER_ID": "YOUR_ISSUER_ID",
-    "APP_STORE_CONNECT_P8_PATH": "/absolute/path/to/AuthKey.p8"
-  }
-}
-```
-
-Drop it into your client's MCP config file:
-
-| Client | Config file | How to slot it in |
-|---|---|---|
-| **Claude Desktop** | `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)<br>`%APPDATA%\Claude\claude_desktop_config.json` (Windows) | Under `"mcpServers": { "asc-mcp-pro": { …snippet… } }` |
-| **Cursor** | `~/.cursor/mcp.json` | Under `"mcpServers": { "asc-mcp-pro": { …snippet… } }` (or use the button above) |
-| **Windsurf** | `~/.codeium/windsurf/mcp_config.json` | Under `"mcpServers": { "asc-mcp-pro": { …snippet… } }` |
-| **Zed** | Zed settings (`~/.config/zed/settings.json`) | Under `"context_servers": { "asc-mcp-pro": { …snippet… } }` |
-| **Continue** (VS Code / JetBrains) | `.continue/config.json` | See [Continue MCP docs](https://docs.continue.dev/customization/mcp-tools) — same `command/args/env` shape |
-| **OpenAI Codex CLI** | `~/.codex/config.toml` | TOML form (see below) |
-
-### Codex CLI (TOML form)
-
-Codex uses TOML, not JSON. Add this to `~/.codex/config.toml`:
-
-```toml
-[mcp_servers.asc_mcp_pro]
-command = "npx"
-args = ["-y", "asc-mcp-pro"]
-env = { APP_STORE_CONNECT_KEY_ID = "YOUR_KEY_ID", APP_STORE_CONNECT_ISSUER_ID = "YOUR_ISSUER_ID", APP_STORE_CONNECT_P8_PATH = "/absolute/path/to/AuthKey.p8" }
-```
-
-(Note: Codex config keys must be valid TOML identifiers, so the table name uses `asc_mcp_pro` with underscores rather than hyphens.)
-
-After editing the config file, restart your client.
 
 ---
 
