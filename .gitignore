@@ -1,0 +1,8 @@
+node_modules
+build
+*.tsbuildinfo
+.env
+.env.local
+*.p8
+.DS_Store
+*.tgz

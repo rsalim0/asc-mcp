@@ -1,0 +1,49 @@
+{
+  "name": "Cut next App Store version",
+  "vars": {
+    "appId": "REPLACE_WITH_APP_ID",
+    "platform": "IOS",
+    "newVersion": "1.2.3",
+    "repoPath": "/path/to/your/repo",
+    "lastTag": "v1.2.2"
+  },
+  "steps": [
+    {
+      "name": "draftWhatsNew",
+      "tool": "asc_workflow_whats_new_from_git",
+      "input": {
+        "repoPath": "${vars.repoPath}",
+        "since": "${vars.lastTag}",
+        "maxBullets": 8
+      }
+    },
+    {
+      "name": "create",
+      "tool": "asc_workflow_release_next_version",
+      "input": {
+        "appId": "${vars.appId}",
+        "platform": "${vars.platform}",
+        "newVersionString": "${vars.newVersion}",
+        "releaseType": "AFTER_APPROVAL",
+        "attachLatestBuild": true
+      }
+    },
+    {
+      "name": "pushWhatsNew",
+      "tool": "asc_versions_update_localization_bulk",
+      "input": {
+        "localizationId": "REPLACE_AFTER_FIRST_RUN_WITH_EN_US_LOC_ID",
+        "attributes": {
+          "whatsNew": "${steps.draftWhatsNew.draft}"
+        }
+      }
+    },
+    {
+      "name": "health",
+      "tool": "asc_workflow_submission_health",
+      "input": {
+        "versionId": "${steps.create.newVersionId}"
+      }
+    }
+  ]
+}

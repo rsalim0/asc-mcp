@@ -1,0 +1,21 @@
+{
+  "name": "Quick TestFlight ship",
+  "vars": {
+    "appId": "REPLACE_WITH_APP_ID",
+    "groupId": "REPLACE_WITH_BETA_GROUP_ID"
+  },
+  "steps": [
+    {
+      "name": "ship",
+      "tool": "asc_workflow_testflight_quick_ship",
+      "input": {
+        "appId": "${vars.appId}",
+        "groupIds": ["${vars.groupId}"],
+        "whatToTest": {
+          "en-US": "Fixed: the login flow no longer hangs on slow networks.\nNew: dark mode is back."
+        },
+        "submitForBetaReview": false
+      }
+    }
+  ]
+}

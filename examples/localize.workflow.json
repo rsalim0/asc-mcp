@@ -1,0 +1,30 @@
+{
+  "name": "Localize metadata to all configured locales",
+  "vars": {
+    "versionId": "REPLACE_WITH_VERSION_ID",
+    "translations": {
+      "en-US": {
+        "description": "Source description text",
+        "keywords": "music,podcast,audio",
+        "promotionalText": "Now with 30% faster startup.",
+        "whatsNew": "Bug fixes and performance improvements."
+      },
+      "fr-FR": {
+        "description": "Texte de description source",
+        "keywords": "musique,podcast,audio",
+        "promotionalText": "Désormais 30% plus rapide au démarrage.",
+        "whatsNew": "Corrections de bugs et améliorations des performances."
+      }
+    }
+  },
+  "steps": [
+    {
+      "name": "push",
+      "tool": "asc_workflow_localize_metadata",
+      "input": {
+        "versionId": "${vars.versionId}",
+        "translations": "${vars.translations}"
+      }
+    }
+  ]
+}
