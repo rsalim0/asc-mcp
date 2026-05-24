@@ -4,7 +4,7 @@ An MCP server that exposes **191 tools** spanning the entire App Store Connect A
 
 Built so you can do *"translate my what's-new to all locales and push"* or *"submit the latest build to External Testers"* from a Claude conversation instead of clicking through ASC for 40 minutes.
 
-[![Add asc-mcp to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=asc-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImdpdGh1Yjpyc2FsaW0wL2FzYy1tY3AiXSwiZW52Ijp7IkFQUF9TVE9SRV9DT05ORUNUX0tFWV9JRCI6IllPVVJfS0VZX0lEIiwiQVBQX1NUT1JFX0NPTk5FQ1RfSVNTVUVSX0lEIjoiWU9VUl9JU1NVRVJfSUQiLCJBUFBfU1RPUkVfQ09OTkVDVF9QOF9QQVRIIjoiL2Fic29sdXRlL3BhdGgvdG8vQXV0aEtleS5wOCJ9fQ%3D%3D)
+[![Add asc-mcp to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=asc-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImdpdGh1Yjpyc2FsaW0wL2FzYy1tY3AiXSwiZW52Ijp7IkFQUF9TVE9SRV9DT05ORUNUX0tFWV9JRCI6IllPVVJfS0VZX0lEIiwiQVBQX1NUT1JFX0NPTk5FQ1RfSVNTVUVSX0lEIjoiWU9VUl9JU1NVRVJfSUQiLCJBUFBfU1RPUkVfQ09OTkVDVF9QOF9QQVRIIjoiL2Fic29sdXRlL3BhdGgvdG8vQXV0aEtleS5wOCJ9fQ%3D%3D)
 
 > The button opens Cursor with a pre-filled install dialog. After install, edit `~/.cursor/mcp.json` and replace `YOUR_KEY_ID`, `YOUR_ISSUER_ID`, and the `.p8` path with your real values — see [Getting an App Store Connect API key](#getting-an-app-store-connect-api-key) below.
 
