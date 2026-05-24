@@ -1,8 +1,13 @@
-# asc-mcp
+# asc-mcp-pro
+
+[![npm version](https://img.shields.io/npm/v/asc-mcp-pro.svg)](https://www.npmjs.com/package/asc-mcp-pro)
+[![npm downloads](https://img.shields.io/npm/dm/asc-mcp-pro.svg)](https://www.npmjs.com/package/asc-mcp-pro)
+[![license](https://img.shields.io/npm/l/asc-mcp-pro.svg)](./LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/rsalim0/asc-mcp?style=social)](https://github.com/rsalim0/asc-mcp)
 
 An MCP server that exposes **191 tools** spanning the entire App Store Connect API: apps, versions, builds, TestFlight, IAP & subscriptions, pricing, screenshots, certificates, reports — plus high-level **workflow macros** (`release_next_version`, `submission_health`, `aso_audit`, `crash_triage`, etc.) and a **declarative workflow runner** that executes JSON manifests.
 
-Built so you can do *"translate my what's-new to all locales and push"* or *"submit the latest build to External Testers"* from a Claude conversation instead of clicking through ASC for 40 minutes.
+Built so you can do *"translate my what's-new to all locales and push"* or *"submit the latest build to External Testers"* from a Claude / Cursor / Codex conversation instead of clicking through ASC for 40 minutes.
 
 [![Add asc-mcp-pro to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=asc-mcp-pro&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImFzYy1tY3AtcHJvIl0sImVudiI6eyJBUFBfU1RPUkVfQ09OTkVDVF9LRVlfSUQiOiJZT1VSX0tFWV9JRCIsIkFQUF9TVE9SRV9DT05ORUNUX0lTU1VFUl9JRCI6IllPVVJfSVNTVUVSX0lEIiwiQVBQX1NUT1JFX0NPTk5FQ1RfUDhfUEFUSCI6Ii9hYnNvbHV0ZS9wYXRoL3RvL0F1dGhLZXkucDgifX0%3D)
 

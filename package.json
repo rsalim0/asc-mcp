@@ -1,6 +1,6 @@
 {
   "name": "asc-mcp-pro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server exposing 191 tools across the App Store Connect API — apps, versions, builds, TestFlight, IAP/subscriptions, pricing, screenshots, certs, reports, plus high-level workflow macros and a declarative workflow runner.",
   "type": "module",
   "bin": {
